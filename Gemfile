@@ -45,6 +45,10 @@ gem "bootsnap", require: false
 
 # Use Devise for basic auth
 gem 'devise'
+
+# Use to handle CORS
+gem 'rack-cors'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
