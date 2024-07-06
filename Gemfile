@@ -49,6 +49,7 @@ gem 'devise'
 # Use to handle CORS
 gem 'rack-cors'
 
+gem 'devise-jwt'
 # Use Sass to process CSS
 # gem "sassc-rails"
 
