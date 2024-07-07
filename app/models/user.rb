@@ -7,4 +7,6 @@ class User < ApplicationRecord
          #Ex:- :null => false
 
   has_many :posts
+
+  validates_uniqueness_of :username
 end

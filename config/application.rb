@@ -18,5 +18,14 @@ module SocialY
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    # config.middleware.insert_after ActionDispatch::Callbacks, JwtAuthentication
+    config.middleware.use Warden::Manager do |manager|
+      manager.default_strategies :jwt
+      manager.failure_app = self.routes
+    end
+
+    # Required by Devise-JWT
+    config.middleware.use Warden::JWTAuth::Middleware
   end
+  
 end

@@ -1,17 +1,22 @@
 module Api 
   module V1
-    class PostsController < 
-      before_action :authenticated_user!
-      respond_to  :jon
+    class PostsController < ApplicationController
+      # Rails.logger.debug(request.headers)
+      # before_action :log_request_headers
+      before_action :authenticate_with_jwt_token
+      respond_to  :json
+      skip_before_action :verify_authenticity_token
+      
       def index
-        @post = Post.new 
+        # @post = Post.new 
         @posts = Post.all.order(updated_at: :asc)
 
         response_with @posts
       end
 
       def create
-        @post = Post.new(post_params)
+        Rails.logger.error("Params recieved: #{post_params}")
+        @post = current_api_v1_user.posts.new(post_params)
       
         respond_to do |format|
           if @post.save
@@ -62,6 +67,30 @@ module Api
           render json: { error: 'Post not found' }, status: :not_found
         end
       end
-  end
-end 
+
+      def authenticate_with_jwt_token
+        token = request.headers['Authorization']&.split(' ')&.last
+        if token.present?
+          begin
+            decoded_token = Warden::JWTAuth::TokenDecoder.new.call(token)
+            Rails.logger.info "Decoded Token: #{decoded_token}"
+            user_id = decoded_token['sub']
+            @current_user = User.find(user_id)
+          rescue JWT::DecodeError => e
+            Rails.logger.error "JWT Decode Error: #{e.message}"
+            render json: { error: 'Unauthorized' }, status: :unauthorized
+          end
+        else
+          Rails.logger.error "Token missing or invalid"
+          render json: { error: 'Unauthorized' }, status: :unauthorized
+          end
+      end
+
+      def current_api_v1_user
+        @current_user
+      end
+
+
+    end
+  end 
 end

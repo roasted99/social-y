@@ -3,9 +3,9 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins '*'
-    resource '*', 
-      headers: :any,
-      expose: ['access-token', 'expiry', 'token-type', 'Authorization'], 
+    resource '/api/*', 
+      headers: %w(Authorization),
+      expose: %(Authorization), 
       methods: [:get, :post, :patch, :put]
   end
 end

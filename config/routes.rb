@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     delete 'logout', to: 'api/v1/users/sessions#destroy'
   end
 
-  resources :posts
+  # resources :posts
   # Defines the root path route ("/")
   root to: "posts#index"
   post 'posts', to: 'posts#create'
