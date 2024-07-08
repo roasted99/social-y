@@ -11,7 +11,7 @@ module Api
         # @post = Post.new 
         @posts = Post.all.order(updated_at: :asc)
 
-        response_with @posts
+        respond_with @posts
       end
 
       def create
@@ -23,7 +23,7 @@ module Api
             @posts = Post.all.order(updated_at: :asc)
             format.json { render :json => @posts }
           else
-            format.json { render :json => @post.errors.full_messages } 
+            format.json { render :json => {message: "can't be blank", error: @post.errors.full_messages }, status => :unprocessable_entity}
           end 
         end
       end
@@ -49,6 +49,19 @@ module Api
         end
 
         if @post.update(post_params)
+          render json: @post, status: :ok
+        else
+          render json: @post.errors, status: :unprocessable_entity
+        end
+      end
+
+      def show
+        if params[:id].blank?
+          render json: { error: 'Post ID is required' }, status: :unprocessable_entity
+          return
+        end
+        @post = Post.find(params[:id])
+        if @post
           render json: @post, status: :ok
         else
           render json: @post.errors, status: :unprocessable_entity

@@ -13,7 +13,7 @@ development:
 
 test:
   <<: *default
-  database: social-y
+  database: social-y-test
 
 production:
   <<: *default

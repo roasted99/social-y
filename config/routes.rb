@@ -25,7 +25,9 @@ Rails.application.routes.draw do
   # resources :posts
   # Defines the root path route ("/")
   root to: "posts#index"
+  get 'posts', to: "posts#index"
   post 'posts', to: 'posts#create'
+  get 'posts/:id', to: 'posts#show'
   patch 'posts/:id', to: 'posts#edit'
   put 'posts/:id', to: 'posts#edit'  # For completeness, since PUT and PATCH can both be used for updates
   
