@@ -10,7 +10,10 @@ Rails.application.routes.draw do
         sessions: 'api/v1/users/sessions',
         registrations: 'api/v1/users/registrations'
       }
-      resources :posts
+      resources :posts do
+        resources :comments, only: [:create, :destroy]
+      end 
+      
     end
   end
 
