@@ -13,7 +13,6 @@
 
       # POST /resource
       def create
-        logger.debug "Params: #{params.inspect}"
         build_resource(sign_up_params)
           
         resource.save
@@ -30,7 +29,6 @@
           }, status: :unprocessable_entity
         end
         
-        logger.debug "Resource errors: #{resource.errors.full_messages}" unless resource.persisted?
           
         # render_resource(resource)
       end
@@ -97,7 +95,7 @@
 
       def generate_jwt_token(resource)
           Warden::JWTAuth::UserEncoder.new.call(resource, :user, nil).first
-        end
+      end
 
     end
   # end

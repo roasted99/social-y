@@ -3,51 +3,50 @@ module Api
     class PostsController < ApplicationController
       # Rails.logger.debug(request.headers)
       # before_action :log_request_headers
-      before_action :authenticate_with_jwt_token
-      respond_to  :json
       skip_before_action :verify_authenticity_token
+      before_action :authenticate_with_jwt_token
+      before_action :set_post, only: [:update, :destroy, :show]
+      before_action :validate_post_params, only: [:create, :update]
+      respond_to  :json
       
       def index
         # @post = Post.new 
-        @posts = Post.all.order(updated_at: :asc)
-
-        respond_with @posts
+        @posts = Post.all.order(updated_at: :desc)
+        render :json => @posts, status: :ok
       end
 
       def create
         Rails.logger.error("Params recieved: #{post_params}")
         @post = current_api_v1_user.posts.new(post_params)
-      
-        respond_to do |format|
+
           if @post.save
-            @posts = Post.all.order(updated_at: :asc)
-            format.json { render :json => @posts }
+            render :json => @post, status: :ok
           else
-            format.json { render :json => {message: "can't be blank", error: @post.errors.full_messages }, status => :unprocessable_entity}
+            render :json => {message: "can't be blank", error: @post.errors.full_messages }, status => :unprocessable_entity
           end 
-        end
+        
       end
 
-      before_action :set_post, only: [:edit, :destroy]
 
       def destroy
         if params[:id].blank?
           render json: { error: 'Post ID is required' }, status: :unprocessable_entity
           return
         end
-        if @post.destroy(post_params)
-          render json: @post, status: :ok
+        @post = Post.find(params[:id])
+        if @post.destroy()
+          render json: {message: "post has been deleted"}, status: :ok
         else
           render json: @post.errors, status: :unprocessable_entity
         end
       end
 
-      def edit
+      def update
         if params[:id].blank?
           render json: { error: 'Post ID is required' }, status: :unprocessable_entity
           return
         end
-
+        @post = Post.find(params[:id])
         if @post.update(post_params)
           render json: @post, status: :ok
         else
@@ -60,9 +59,9 @@ module Api
           render json: { error: 'Post ID is required' }, status: :unprocessable_entity
           return
         end
-        @post = Post.find(params[:id])
+        @post = Post.find_by(id: params[:id])
         if @post
-          render json: @post, status: :ok
+          render json: @post.to_json(include: :comments), status: :ok
         else
           render json: @post.errors, status: :unprocessable_entity
         end
@@ -72,6 +71,12 @@ module Api
 
       def post_params
         params.require(:post).permit(:body)
+      end
+
+      def validate_post_params
+        if post_params[:body].blank? || post_params[:body] == nil
+          render json: { error: 'Body cannot be blank' }, status: :unprocessable_entity
+        end
       end
 
       def set_post
