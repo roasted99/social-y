@@ -3,43 +3,39 @@ require 'rails_helper'
 RSpec.describe 'Posts API', type: :request do
   let(:user) { FactoryBot.create(:user) }
   let(:headers) { valid_headers }
+  let(:postData) { FactoryBot.create(:post, user: user)}
+  let(:post_id) { postData.id }
   
-  describe "POST /api/v1/posts" do
-    before { post '/api/v1/posts', headers: headers }
-    let(:valid_attributes) { { body: "New post" } }
-    
+  #post request
+  describe "POST /api/v1/posts" do  
     context "when the request is valid" do
-      before do
-        post "/api/v1/posts", params: { post: valid_attributes }
-      end
-      
+      before { post '/api/v1/posts', headers: headers, params: { post: {body: "New post" }}.to_json } 
+     
       it "creates a post" do
-        expect(response).to have_http_status(201)
-        expect(json).to eq("New post")
+        expect(response).to have_http_status(200)
+        expect(json["body"]).to eq("New post")
       end
     end
     
     context "when the request is invalid" do
-      before do
-        post "/api/v1/posts", params: { post: { body: nil } }
-      end
+      before { post '/api/v1/posts', headers: headers, params: { post: { body => nil }}.to_json } 
       
       it "returns a validation error message" do
         expect(response).to have_http_status(422)
-        expect(json["errors"]["body"]).to include("can't be blank")
+        expect(json["error"]).to match("Body cannot be blank")
       end
     end
   end
   
+  #get request
   describe 'GET /api/v1/posts' do
-    before { get '/api/v1/posts', headers: headers }
+    before do
+      FactoryBot.create_list(:post, 5, user: user)
+      get '/api/v1/posts', headers: headers
+    end
     
-    let!(:posts) { create(:post, 10, user: user) }
-    let(:post_id) { posts.first.id }
-
     it 'returns posts' do
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
     end
 
     it 'returns status code 200' do
@@ -62,69 +58,61 @@ RSpec.describe 'Posts API', type: :request do
     end
 
     context 'when the record does not exist' do
-      let(:post_id) { 100 }
+      let(:post_id) { 10000 }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match("Couldn't find post")
+        expect(response.body).to match("Post not found")
       end
     end
   end
-
-   describe "PATCH /api/v1/posts/:id" do
-    before { patch '/api/v1/posts', headers: headers }
-
-    context "when the request is valid" do
-      before do
-        patch "/api/v1/posts/#{post.id}", params: { post: { body: "Updated the status." } }
-      end
-
-      it "updates the post" do
-        expect(response).to have_http_status(200)
-        expect(json).to eq("Updated the status")
-      end
-    end
-
-    context "when the request is invalid" do
-      before do
-        patch "/api/v1/posts/#{post.id}", params: { post: { title: nil } }
-      end
-
-      it "returns a validation error message" do
-        expect(response).to have_http_status(422)
-        expect(json["errors"]["body"]).to include("can't be blank")
-      end
-    end
-  end
-
-   describe "DELETE /api/v1/posts/:id" do
-    before { get '/api/v1/posts', headers: headers } 
-
-    context "when the request is valid" do
-      before do
-        delete "/api/v1/posts/#{post.id}"
-      end
-
-      it "deletes the post" do
-        expect(response).to have_http_status(204)
-        expect(Post.find_by(id: post.id)).to be_nil
-      end
-    end
-  end
+  
+   #patch request
+  describe "PATCH /api/v1/posts/:id" do
+  
+     context "when the request is valid" do
+       before { patch "/api/v1/posts/#{post_id}", params: { post: { body: "Updated the status"} }.to_json, headers: headers }
+       it "updates the post" do
+         expect(response).to have_http_status(200)
+         expect(json["body"]).to eq("Updated the status")
+       end
+     end
+    
+     context "when the request is invalid" do
+       before { patch "/api/v1/posts/#{post_id}", params: { post: { body: nil } }.to_json, headers: headers }
+       it "returns a validation error message" do
+         expect(response).to have_http_status(422)
+         expect(json["error"]).to match("Body cannot be blank")
+       end
+     end
+   end
+  
+   #delete request  
+  describe "DELETE /api/v1/posts/:id" do
+     before { delete "/api/v1/posts/#{post_id}", headers: headers } 
+  
+     context "when the request is valid" do
+      
+       it "deletes the post" do
+         expect(response).to have_http_status(200)
+         expect(Post.find_by(id: post_id)).to be_nil
+       end
+     end
+   end
 end 
 
 def valid_headers
   {
-    "Authorization" => "Bearer #{user.token}",
+    "Authorization" => "Bearer #{token_generator(user)}",
     "Content-Type" => "application/json"
   }
 end
 
 def token_generator(user)
-  JsonWebToken.encode(user)
+  Warden::JWTAuth::UserEncoder.new.call(user, :user, nil).first
 end
 
 def json

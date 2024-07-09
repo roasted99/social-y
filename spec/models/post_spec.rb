@@ -18,7 +18,7 @@ RSpec.describe Post, type: :model do
     it 'is invalid without body' do
       @post.body = nil
       expect(@post).not_to be_valid
-      expect(@post.errors[:body]).to include("can't be blank")
+      expect(@post.errors[:body]).to include("Body can't be blank")
     end
 
     it 'is invalid without a user' do
