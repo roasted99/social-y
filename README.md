@@ -1,5 +1,22 @@
 # SocialY
-This project is a small social media application built with Ruby on Rails. It includes functionality for users, posts, and comments. The frontend is handled using Rails views with Stimulus and Importmap. The backend provides an API with versioning, and authentication is managed using JWT.
+This project is a small social media application built with Ruby on Rails. It includes functionality for users to sign up, log in, create posts, and comment on posts. The frontend is handled using Rails views with Stimulus and Importmap, providing a dynamic and responsive user interface.The backend provides a RESTful API with versioning, and authentication is managed using JWT.
+
+### Features
+
+- **User Registration and Authentication**
+  - Users can sign up with their username, email, and password.
+  - Users can log in using their email and password.
+  - Authentication is handled using JSON Web Tokens (JWT).
+
+- **Posts**
+  - Authenticated users can create new posts.
+  - Users can view posts created by others.
+  - Users can edit and delete posts.
+
+- **Comments**
+  - Authenticated users can comment on posts.
+  - Users can view comments on any post.
+  - Users can edit and delete comments.
 
 ## Setup Instructions
  ### Prerequisites
