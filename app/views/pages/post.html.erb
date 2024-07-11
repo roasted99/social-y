@@ -1,0 +1,44 @@
+<main class="flex-grow container mx-auto px-4 mt-4">
+  <div class="grid lg:grid-cols-12 grid-cols-1 h-screen pr-6" data-controller="post">
+    <div class="lg:col-span-2 pt-6 pr-6">
+      <a href="/">
+        <span class="text-sky-500 text-3xl font-bold">SocialY</span>
+      </a>
+    
+      <ul class="mt-6">
+        <li>
+          <a href="/" class="flex p-6">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current w-6 h-6 mr-4"><g><path d="M22.46 7.57L12.357 2.115c-.223-.12-.49-.12-.713 0L1.543 7.57c-.364.197-.5.652-.303 1.017.135.25.394.393.66.393.12 0 .243-.03.356-.09l.815-.44L4.7 19.963c.214 1.215 1.308 2.062 2.658 2.062h9.282c1.352 0 2.445-.848 2.663-2.087l1.626-11.49.818.442c.364.193.82.06 1.017-.304.196-.363.06-.818-.304-1.016zm-4.638 12.133c-.107.606-.703.822-1.18.822H7.36c-.48 0-1.075-.216-1.178-.798L4.48 7.69 12 3.628l7.522 4.06-1.7 12.015z"></path><path d="M8.22 12.184c0 2.084 1.695 3.78 3.78 3.78s3.78-1.696 3.78-3.78-1.695-3.78-3.78-3.78-3.78 1.696-3.78 3.78zm6.06 0c0 1.258-1.022 2.28-2.28 2.28s-2.28-1.022-2.28-2.28 1.022-2.28 2.28-2.28 2.28 1.022 2.28 2.28z"></path></g></svg>
+            <span>Home</span>
+          </a>       
+        </li>
+       
+      </ul>
+    </div>
+ 
+    <div class="lg:col-span-6 border-x" >
+      <div id="post-container" data-post-target="postContainer"></div>
+       <!-- Comments Section -->
+      
+       <div class="comments-section mb-4 mt-4">
+        <div class="font-bold text-gray-700 mb-2">Comments</div>
+        <!-- Comment -->
+         <div id="comments-container" class="mt-2" data-post-target="commentContainer"></div>
+          <!-- Comment Form -->
+          <form class="flex items-center mt-2" data-action="submit->post#submitComment" data-post-target="commentForm">
+            <input class="flex-1 border border-gray-300 rounded-lg p-2 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" name="body" placeholder="Write a comment...">
+            <button class="ml-3 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">
+             Comment
+            </button>
+          </form>
+        </div>
+      
+    </div>
+
+    <div class="lg:col-span-4 pl-6 pt-6">
+
+      <button type="button" data-action="click->post#logout" class="mt-2 bg-sky-500 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+        Log Out
+       </button>
+  </div>
+</main>
