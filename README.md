@@ -26,8 +26,10 @@ This project is a small social media application built with Ruby on Rails. It in
   - #### Clone the Repository
  
 
-   `` git clone https://github.com/roasted99/social-y.git ``
-   `` cd social-y ``
+   ```
+ git clone https://github.com/roasted99/social-y.git 
+ cd social-y
+```
 
    - #### Install Dependencies
     bundle install
@@ -56,7 +58,7 @@ OR
     bundle exec rspec
    - #### Views
 	 Go to http://localhost:3000/ for login.
-	 Use below credential to login if db has been seeded.
+	 Use below credential to login if you run `rails db:seed`.
 	 
 
     test@example.com
@@ -69,50 +71,52 @@ OR
 **Request**
 		   
 
-    { "user":  { 	
+    { 
+    "user":  { 	
 	    "email": "test@example.com", 
-		"password": "password123" 
-		}
+	 "password": "password123" 
 	}
+     }
 	
 **Response**
 
     {
-		"user": {
-			"id": 37,
-			"email": "test@example.com",
-			"created_at": "2024-07-11T03:26:42.330Z",
-			"updated_at": "2024-07-11T03:26:42.330Z",
-			"username": "johnjohn"
+	"user": {
+		"id": 37,
+		"email": "test@example.com",
+		"created_at": "2024-07-11T03:26:42.330Z",
+		"updated_at": "2024-07-11T03:26:42.330Z",
+		"username": "johnjohn"
 		},
-			"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNyIsInNjcCI6InVzZXIiLCJhdWQiOm51bGwsImlhdCI6MTcyMDY3MjUwMywiZXhwIjoxNzIwNzU4OTAzLCJqdGkiOiJkODUyOTk1OS04ZjFiLTQ2ZDMtODEyYy1kODQ3OTU2NTJlOTEifQ.jbB2PONoM8qmUJL_uEcw6Ae5vEeSM_VnO1bWFDY3n70"
-	}
+	"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNyIsInNjcCI6InVzZXIiLCJhdWQiOm51..."
+    }
 - ### SignUp
 	 - Endpoint:`POST /api/v1/signup`
 
 **Request**
 		   
 
-    { "user":  { 	
-	    "username": "sky_brother",
-	    "email": "skybro@gmail.com", 
-			"password": "password123" ,
-			"password_confirmation: "password123"
-		}
+    {
+    "user":  { 	
+	    	"username": "sky_brother",
+	   	"email": "skybro@gmail.com", 
+		"password": "password123" ,
+		"password_confirmation: "password123"
+	    }
 	}
 	
 **Response**
 
     {
-		"user": {
-			"id": 38,
-			"username": "sky_brother",
-			"email": "skybro@gmail.com",
-			"created_at": "2024-07-11T03:26:42.330Z",
-			"updated_at": "2024-07-11T03:26:42.330Z",
-			"username": "sky_brother"
+	"user": {
+		"id": 38,
+		"username": "sky_brother",
+		"email": "skybro@gmail.com",
+		"created_at": "2024-07-11T03:26:42.330Z",
+		"updated_at": "2024-07-11T03:26:42.330Z",
+		"username": "sky_brother"
 		},
-			"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNyIsInNjcCI6InVzZXIiLCJhdWQiOm51bGwsImlhdCI6MTcyMDY3MjUwMywiZXhwIjoxNzIwNzU4OTAzLCJqdGkiOiJkODUyOTk1OS04ZjFiLTQ2ZDMtODEyYy1kODQ3OTU2NTJlOTEifQ.jbB2PONoM8qmUJL_uEcw6Ae5vEeSM_VnO1bWFDY3n70"
+	"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNyIsInNjcCI6InVzZXIiLCJhdWQiOm51bGwsImlhdCI6MTc..."
 	}
 
 - ### Post
@@ -133,15 +137,15 @@ OR
 **Response**
 
     {
-		"id": 61,
-		"body": "This is a test post",
-		"created_at": "2024-07-11T04:51:00.664Z",
-		"updated_at": "2024-07-11T04:51:00.664Z",
-		"user": {
-			"id": 37,
-			"username": "johnjohn"
-		},
-		"comments": []
+	"id": 61,
+	"body": "This is a test post",
+	"created_at": "2024-07-11T04:51:00.664Z",
+	"updated_at": "2024-07-11T04:51:00.664Z",
+	"user": {
+		"id": 37,
+		"username": "johnjohn"
+	},
+	"comments": []
 	}
 - ### Get all post
 	-   Endpoint: `GET /api/v1/posts`
@@ -155,17 +159,17 @@ OR
 **Response**
 
     [
-			{
-				"id": 61,
-				"body": "This is a test post",
-				"created_at": "2024-07-11T04:51:00.664Z",
-				"updated_at": "2024-07-11T04:51:00.664Z",
-				"user": {
-					"id": 37,
-					"username": "johnjohn"
-				}
-		},...
-	]
+	{
+	"id": 61,
+	"body": "This is a test post",
+	"created_at": "2024-07-11T04:51:00.664Z",
+	"updated_at": "2024-07-11T04:51:00.664Z",
+	"user": {
+		"id": 37,
+		"username": "johnjohn"
+		}
+	},...
+    ]
 		
 - ### Update post
 	-   Endpoint: `PATCH /api/v1/posts/:id`
@@ -184,10 +188,10 @@ OR
 **Response**
 
     {
-		"id": 61,
-		"body": "This is a update post",
-		"created_at": "2024-07-11T04:57:00.664Z",
-		"updated_at": "2024-07-11T04:57:00.664Z",
+	"id": 61,
+	"body": "This is a update post",
+	"created_at": "2024-07-11T04:57:00.664Z",
+	"updated_at": "2024-07-11T04:57:00.664Z",
 	}
 	
 	
@@ -202,9 +206,7 @@ OR
 	
 **Response**
 
-    {
-		"message":  "post has been deleted",
-	}
+    { "message":  "post has been deleted" }
 
 - ### Create comment
 	-   **Endpoint:** `POST /api/v1/posts/postId/comments`
@@ -217,15 +219,15 @@ OR
 
 **Request**
 		   
-    { "body": "This is a comment"}
+    { "body": "This is a comment" }
 	
 **Response**
 
     {
-		"id": 113,
-		"body": "This is a comment",
-		"created_at": "2024-07-11T04:51:00.664Z",
-		"updated_at": "2024-07-11T04:51:00.664Z",
+	"id": 113,
+	"body": "This is a comment",
+	"created_at": "2024-07-11T04:51:00.664Z",
+	"updated_at": "2024-07-11T04:51:00.664Z",
 	}
 - ### Delete comment
 	-   Endpoint: `POST /api/v1/posts/postId/comments/commentId`
@@ -238,6 +240,4 @@ OR
 	
 **Response**
 
-    {
-		"message":  "comment has been deleted",
-	}
+    { "message":  "comment has been deleted" }
