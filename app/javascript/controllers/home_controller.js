@@ -7,7 +7,6 @@ export default class extends Controller {
 
   connect() {
     this.fetchPosts()
-    // this.formTarget.addEventListener("submit", this.submit.bind(this))
   }
 
   async fetchPosts() {

@@ -29,7 +29,10 @@ class PagesController < ApplicationController
         decoded_token = Warden::JWTAuth::TokenDecoder.new.call(token)
         Rails.logger.info "Decoded Token: #{decoded_token}"
         user_id = decoded_token['sub']
-        @current_user = User.find(user_id)
+        @current_user = User.find_by(id: user_id)
+        if @current_user == nil? 
+          render json: { error: 'Unauthorized' }, status: :unauthorized
+        end
       rescue JWT::DecodeError => e
         Rails.logger.error "JWT Decode Error: #{e.message}"
         render json: { error: 'Unauthorized' }, status: :unauthorized

@@ -21,7 +21,7 @@ class Api::V1::CommentsController < ApplicationController
     end
     @comment = Comment.find(params[:id])
     if @comment.destroy()
-      render json: {message: "Comment is deleted"}, status: :ok
+      render json: {message: "domment has been deleted"}, status: :ok
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
