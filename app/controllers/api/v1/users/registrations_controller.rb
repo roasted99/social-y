@@ -19,8 +19,8 @@
         if resource.persisted?
           token = generate_jwt_token(resource)
           render json: {
-            status: { status: 200, message: "Signed up sucessfully."},
-            data: resource,
+            message: "Signed up sucessfully.",
+            user: resource,
             token: token
           }, status: :ok
         else

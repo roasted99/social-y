@@ -3,8 +3,8 @@
   # module V1
   class Api::V1::Users::SessionsController < Devise::SessionsController
     # before_action :configure_sign_in_params, only: [:create]
-    respond_to :json
     skip_before_action :verify_authenticity_token
+    respond_to :json
     # GET /resource/sign_in
     # def new
     #   super
@@ -13,7 +13,7 @@
     # POST /resource/sign_in
     def create
 
-      Rails.logger.debug("Params received: #{login_params.inspect}")
+     
 
       user = User.find_by(email: login_params[:email])
 
@@ -21,10 +21,10 @@
 
       if user && user.valid_password?(login_params[:password])
         token = generate_jwt_token(user)
-        render json: { message: 'Logged in successfully', data: user, token: token }, status: :ok
+        render :json => {user: user, token: token}, status: :ok
       else
         Rails.logger.error("Authentication failed: Invalid email or password")
-        render json: { error: 'Invalid email or password.' }, status: :unauthorized
+        render :json => { error: 'Invalid email or password.' }, status: :unauthorized
       end
        
       # render json: { error: 'An error occurred while trying to log in' }, status: :internal_server_error

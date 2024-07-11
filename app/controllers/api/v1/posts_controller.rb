@@ -12,7 +12,7 @@ module Api
       def index
         # @post = Post.new 
         @posts = Post.all.order(updated_at: :desc)
-        render :json => @posts, status: :ok
+        render :json => @posts, include: { user: { only: [:id, :username] } }, status: :ok
       end
 
       def create
@@ -61,7 +61,7 @@ module Api
         end
         @post = Post.find_by(id: params[:id])
         if @post
-          render json: @post.to_json(include: :comments), status: :ok
+          render json: @post, serializer: PostSerializer, status: :ok
         else
           render json: @post.errors, status: :unprocessable_entity
         end
