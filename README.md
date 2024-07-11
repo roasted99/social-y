@@ -3,14 +3,14 @@ This project is a small social media application built with Ruby on Rails. It in
 
 ## Setup Instructions
  ### Prerequisites
-  - Ruby (version 3.0.0 or later)
+  	- Ruby (version 3.0.0 or later)
 	- Rails (version 7.0 or later) 
 	- PostgreSQL 
   - #### Clone the Repository
  
 
-    git clone https://github.com/roasted99/social-y.git
-    cd social-y
+   `` git clone https://github.com/roasted99/social-y.git
+    cd social-y ``
 
    - #### Install Dependencies
     bundle install
