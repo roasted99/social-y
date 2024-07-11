@@ -9,8 +9,8 @@ This project is a small social media application built with Ruby on Rails. It in
   - #### Clone the Repository
  
 
-   `` git clone https://github.com/roasted99/social-y.git
-    cd social-y ``
+   `` git clone https://github.com/roasted99/social-y.git ``
+   `` cd social-y ``
 
    - #### Install Dependencies
     bundle install
