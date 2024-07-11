@@ -16,7 +16,7 @@ This project is a small social media application built with Ruby on Rails. It in
 - **Comments**
   - Authenticated users can comment on posts.
   - Users can view comments on any post.
-  - Users can edit and delete comments.
+  - Users can delete comments.
 
 ## Setup Instructions
  ### Prerequisites
